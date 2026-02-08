@@ -1,66 +1,82 @@
 // pages/appointment/appointment.js
+const DEFAULT_SLOTS = [
+  { status: "busy" },
+  { status: "busy" },
+  { status: "mid" },
+  { status: "free" },
+  { status: "free" },
+  { status: "busy" },
+  { status: "busy" },
+  { status: "free" }
+];
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    categories: [
+      { name: "激光切割" },
+      { name: "3D打印" },
+      { name: "电子工艺" },
+      { name: "基础实训" }
+    ],
+    selectedCategoryIndex: 0,
+    deviceOptions: ["全部设备", "激光切割机", "3D打印机", "电子工艺", "基础实训"],
+    selectedDeviceIndex: 0,
+    weekDates: [
+      { date: "03.16", day: "周一" },
+      { date: "03.17", day: "周二" },
+      { date: "03.18", day: "周三" },
+      { date: "03.19", day: "周四" },
+      { date: "03.20", day: "周五" },
+      { date: "03.21", day: "周六" },
+      { date: "03.22", day: "周日" }
+    ],
+    selectedDateIndex: 0,
+    timeLabels: ["9", "10", "11", "12", "14", "15", "16", "17"],
+    machines: [
+      { name: "激光切割机 1", slots: DEFAULT_SLOTS },
+      { name: "激光切割机 1", slots: DEFAULT_SLOTS },
+      { name: "激光切割机 1", slots: DEFAULT_SLOTS },
+      { name: "激光切割机 1", slots: DEFAULT_SLOTS }
+    ],
+    myBooking: {
+      name: "激光切割机1",
+      date: "3月16日",
+      time: "早上 10:00 - 11:00",
+      room: "D3-b101"
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onCategoryTap(e) {
+    const index = Number(e.currentTarget.dataset.index || 0);
+    this.setData({ selectedCategoryIndex: index });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  onDateTap(e) {
+    const index = Number(e.currentTarget.dataset.index || 0);
+    this.setData({ selectedDateIndex: index });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  onDeviceChange(e) {
+    this.setData({ selectedDeviceIndex: Number(e.detail.value || 0) });
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  onReserveTap() {
+    wx.showToast({
+      title: "预约功能待接入",
+      icon: "none"
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
+  onMyActionTap(e) {
+    const action = e.currentTarget.dataset.action || "";
+    const titleMap = {
+      edit: "加工文件修改功能待接入",
+      checkin: "报道功能待接入"
+    };
 
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    wx.showToast({
+      title: titleMap[action] || "功能待接入",
+      icon: "none"
+    });
   }
-})
+});
